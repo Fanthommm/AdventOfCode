@@ -27,28 +27,26 @@ def part_one(data):
             result += 1
     print("part one :" + str(result))
 
-def check_step_two(line):
-    tmp = line[0]
-    lives = 1
-    for i in line[1:]:
-        if abs(tmp - i) > 3 or abs(tmp - i) < 1 :
-            lives -= 1
-        tmp = i
-    if lives < 0:
-        return False
+def is_valid(line):
+    if is_increasing(line) or is_decreasing(line):
+        return check_step(line)
     else:
-        return True
+        return False
 
 def part_two(data):
     result = 0
     for line in data:
         line = [int(num) for num in line.split(" ")]
-        if is_increasing(line) or is_decreasing(line):
-            check = check_step_two(line)
+        if not is_valid(line):
+            saved = False
+            for i in range(len(line)):
+                trunc = line.copy()
+                trunc.pop(i)
+                if is_valid(trunc):
+                    saved = True
+            if saved:
+                result += 1
         else:
-            check = False
-        if check:
-            print(line)
             result += 1
     print("part two :" + str(result))
 
