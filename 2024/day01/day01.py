@@ -1,4 +1,5 @@
 import sys
+import argparse
 from ..utils import Input
 
 def process_input(lines):
@@ -38,7 +39,13 @@ def part_two(list1, list2):
     print(f"TOTAL = {total_result}")
 
 def main():
-    with open('day01/input.txt') as f:
+    parser = argparse.ArgumentParser(description='Setup for advent of code 2024!')
+    parser.add_argument("--input", type=str, default="input.txt", help="Input file")
+
+    args = parser.parse_args()
+    input_file = args.input
+
+    with open(input_file) as f:
         lines = f.readlines()
     
     list1, list2 = process_input(lines)

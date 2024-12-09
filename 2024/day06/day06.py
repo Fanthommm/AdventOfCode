@@ -1,3 +1,4 @@
+import argparse
 import time
 import sys
 import numpy as np
@@ -114,8 +115,13 @@ def move(map, player, max_x, max_y):
     return x,y,orientation
 
 if __name__ == "__main__":
-    with open('input.txt') as f:
-    # with open('test_input.txt') as f:
+    parser = argparse.ArgumentParser(description='Setup for advent of code 2024!')
+    parser.add_argument("--input", type=str, default="input.txt", help="Input file")
+
+    args = parser.parse_args()
+    input_file = args.input
+
+    with open(input_file) as f:
         lines = f.readlines()
 
     np.set_printoptions(threshold=sys.maxsize)

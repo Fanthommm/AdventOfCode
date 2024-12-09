@@ -1,3 +1,4 @@
+import argparse
 import time
 from functools import cmp_to_key
 
@@ -68,9 +69,13 @@ def part_two(rules, updates, befores, afters):
 # print(mylist) # prints: ['d', 'c', 'a', 'b', 'e']
 
 if __name__ == "__main__":
-    with open("input.txt") as f:
-        # with open("test_input.txt") as f:
-        # with open('input_reda.txt') as f:
+    parser = argparse.ArgumentParser(description='Setup for advent of code 2024!')
+    parser.add_argument("--input", type=str, default="input.txt", help="Input file")
+
+    args = parser.parse_args()
+    input_file = args.input
+
+    with open(input_file) as f:
         lines = f.readlines()
 
     data = [line.rstrip() for line in lines]
