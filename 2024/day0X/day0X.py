@@ -19,8 +19,9 @@ if __name__ == "__main__":
         lines = f.readlines()
     
     data = [line.rstrip() for line in lines]
-    part_one(data)
+    
     starttime = time.time()
+    part_one(data)
     part_two(data)
     endtime = time.time()
     print(f"Execution time: {endtime-starttime}")
