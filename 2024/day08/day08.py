@@ -36,7 +36,14 @@ def find_antinode(p1, p2, shape):
 
     return constrained_solutions
 
+def is_an_integer(n):
+    k = 1000
+    # print(round(n) * k)
+    # print(round(n * k))
+    return abs(round(n) * k - round(n * k)) <= 1
+
 def part_one(data):
+    antinodes = []
     antennas = {}
     shape = (len(data), len(data[0]))
     for x in range(len(data)):
@@ -49,18 +56,54 @@ def part_one(data):
     
     for type in antennas.keys():
         list_type = antennas[type]
-        print(f"Type: {type}")
         for pair in combinations(list_type, 2):
-            antidones = find_antinode(pair[0], pair[1], shape)
-            print(antidones)
-            # print((2.0).is_integer())
-            print([antidone for antidone in antidones if float(antidone[0]).is_integer() and float(antidone[1]).is_integer()])
+            m,b = trouve_droite(pair[0], pair[1])
+
+            for x in range(shape[0]):
+                for y in range(shape[1]):
+                    if (
+                        abs(y - (m * x + b)) <= 0.001
+                        and (
+                            distance((x,y), pair[0]) == 2 * distance((x,y), pair[1])
+                            or distance((x,y), pair[1]) == 2 * distance((x,y), pair[0])
+                        )
+                    ):
+                        antinodes.append((x,y))
+
+    print(f"Part one : {len(set(antinodes))}")
 
 
     return 0
 
 def part_two(data):
-    return 0
+    antinodes = []
+    antennas = {}
+    shape = (len(data), len(data[0]))
+    for x in range(len(data)):
+        for y in range(len(data[x])):
+            if data[x][y] != ".":
+                if data[x][y] in antennas.keys():
+                    antennas[data[x][y]].append((x,y))
+                else:
+                    antennas[data[x][y]] = [(x,y)]
+    
+    for type in antennas.keys():
+        list_type = antennas[type]
+        for pair in combinations(list_type, 2):
+            m,b = trouve_droite(pair[0], pair[1])
+
+            for x in range(shape[0]):
+                for y in range(shape[1]):
+                    if (
+                        abs(y - (m * x + b)) <= 0.001
+                        and (
+                            distance((x,y), pair[0]) % distance(pair[0], pair[1]) == 0
+                            or distance((x,y), pair[1]) % distance(pair[0], pair[1]) == 0
+                        )
+                    ):
+                        antinodes.append((x,y))
+
+    print(f"Part two : {len(set(antinodes))}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Setup for advent of code 2024!')
